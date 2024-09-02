@@ -1,4 +1,99 @@
 # 0902
+从你的描述来看，你可以在浏览器中访问网页并且已经添加了代理，但仍然无法通过 `apt` 访问 Docker 的下载服务器。这可能是因为 `apt` 没有正确地使用你的代理设置。以下是一些解决方法：
+
+### 1. 为 `apt` 配置代理
+
+你需要确保 `apt` 正确使用了代理。你可以通过在 APT 配置文件中添加代理设置来实现这一点。
+
+#### 配置 HTTP 和 HTTPS 代理
+
+编辑 `/etc/apt/apt.conf.d/proxy.conf` 文件（如果文件不存在，可以创建）：
+
+```bash
+sudo nano /etc/apt/apt.conf.d/proxy.conf
+```
+
+在文件中添加以下内容，根据你的代理地址替换 `http://your.proxy.server:port`：
+
+```plaintext
+Acquire::http::Proxy "http://your.proxy.server:port";
+Acquire::https::Proxy "http://your.proxy.server:port";
+```
+
+保存文件并退出编辑器，然后再运行 `sudo apt update` 以查看问题是否解决。
+
+### 2. 设置环境变量
+
+你可以通过设置环境变量来确保所有终端应用（包括 `apt`）都使用代理。
+
+在终端中，设置以下环境变量：
+
+```bash
+export http_proxy="http://your.proxy.server:port"
+export https_proxy="http://your.proxy.server:port"
+```
+
+要使这些设置在系统重启后仍然生效，你可以将它们添加到 `~/.bashrc` 或 `~/.bash_profile` 文件中：
+
+```bash
+echo 'export http_proxy="http://your.proxy.server:port"' >> ~/.bashrc
+echo 'export https_proxy="http://your.proxy.server:port"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### 3. 确保代理支持 HTTPS
+
+一些代理服务器可能只支持 HTTP 流量，而 Docker 的仓库是通过 HTTPS 提供的。请确保你的代理服务器支持 HTTPS，并且可以通过端口 443 正常工作。
+
+### 4. 使用 `curl` 测试代理设置
+
+你可以使用 `curl` 命令来测试代理是否正确配置，并且能够访问 Docker 的服务器：
+
+```bash
+curl -v -x http://your.proxy.server:port https://download.docker.com/linux/ubuntu/dists/focal/InRelease
+```
+
+如果你能够通过 `curl` 成功连接到 Docker 的服务器，那么问题可能出在 `apt` 的配置上。
+
+### 5. 检查网络配置和防火墙
+
+确保你的网络配置和防火墙设置没有阻止 `apt` 访问外部网络。你可以使用以下命令检查当前的防火墙状态：
+
+```bash
+sudo ufw status
+```
+
+如果发现有规则阻止外部访问，可能需要修改防火墙配置。
+
+### 6. 重启网络服务
+
+有时候，简单地重启网络服务可能会解决问题：
+
+```bash
+sudo systemctl restart networking
+```
+
+### 7. 更新 Docker APT 源配置
+
+如果所有方法均无效，尝试更新 Docker 的 APT 源配置文件：
+
+```bash
+sudo nano /etc/apt/sources.list.d/docker.list
+```
+
+确保文件内容正确无误，例如：
+
+```plaintext
+deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+```
+
+保存文件并退出编辑器，然后再次运行：
+
+```bash
+sudo apt update
+```
+
+通过这些步骤，你应该能够解决通过代理访问 Docker 服务器的问题。如果问题仍然存在，请检查代理服务器和网络配置的其他细节。
 ```
 63 packages can be upgraded. Run 'apt list --upgradable' to see them.
 W: Failed to fetch https://download.docker.com/linux/ubuntu/dists/focal/InRelease  Cannot initiate the connection to download.docker.com:443 (2a03:2880:f111:83:face:b00c:0:25de). - connect (101: Network is unreachable) Could not connect to download.docker.com:443 (31.13.82.33), connection timed out
