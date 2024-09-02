@@ -80,4 +80,13 @@ Copy code
 sudo apt update
 3. 总结
 通过上述步骤，你应该可以解决 Docker 源重复配置和网络连接问题。如果依然存在网络连接问题，建议进一步检查网络配置和代理设置。
+
+Err:8 https://download.docker.com/linux/ubuntu focal InRelease                                   
+  Cannot initiate the connection to download.docker.com:443 (2a03:2880:f131:83:face:b00c:0:25de). - connect (101: Network is unreachable) Could not connect to download.docker.com:443 (104.244.43.208), connection timed out
+Reading package lists... Done                                              
+Building dependency tree       
+Reading state information... Done
+63 packages can be upgraded. Run 'apt list --upgradable' to see them.
+W: Failed to fetch https://download.docker.com/linux/ubuntu/dists/focal/InRelease  Cannot initiate the connection to download.docker.com:443 (2a03:2880:f131:83:face:b00c:0:25de). - connect (101: Network is unreachable) Could not connect to download.docker.com:443 (104.244.43.208), connection timed out
+W: Some index files failed to download. They have been ignored, or old ones used instead.
 ```
