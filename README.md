@@ -1,4 +1,29 @@
 # 0902
+```
+$ sudo apt update
+Hit:1 http://mirrors.bwbot.org stable InRelease
+Hit:2 https://dl.google.com/linux/chrome/deb stable InRelease                                                                           
+Get:3 https://download.docker.com/linux/ubuntu focal InRelease [57.7 kB]                                                                
+Err:3 https://download.docker.com/linux/ubuntu focal InRelease                                                                          
+  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 7EA0A9C3F273FCD8
+Hit:4 https://download.01.org/intel-sgx/sgx_repo/ubuntu focal InRelease                   
+Hit:6 http://archive.ubuntu.com/ubuntu focal InRelease                                           
+Hit:7 http://security.ubuntu.com/ubuntu focal-security InRelease                                 
+Hit:5 https://apt.llvm.org/focal llvm-toolchain-focal-13 InRelease                               
+Err:8 http://archive.ubuntu.com/ubuntu focal-updates InRelease
+  502  Bad Gateway [IP: 127.0.0.1 7890]
+Hit:9 http://archive.ubuntu.com/ubuntu focal-backports InRelease
+Reading package lists... Done
+W: GPG error: https://download.docker.com/linux/ubuntu focal InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 7EA0A9C3F273FCD8
+E: The repository 'https://download.docker.com/linux/ubuntu focal InRelease' is not signed.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+E: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/focal-updates/InRelease  502  Bad Gateway [IP: 127.0.0.1 7890]
+E: The repository 'http://archive.ubuntu.com/ubuntu focal-updates InRelease' is no longer signed.
+N: Updating from such a repository can't be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+
+```
 从你的描述来看，你可以在浏览器中访问网页并且已经添加了代理，但仍然无法通过 `apt` 访问 Docker 的下载服务器。这可能是因为 `apt` 没有正确地使用你的代理设置。以下是一些解决方法：
 
 ### 1. 为 `apt` 配置代理
