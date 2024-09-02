@@ -1,4 +1,72 @@
 # 0902
+从你的错误信息来看，目前有两个主要问题：
+
+1. **Docker 仓库的 GPG 密钥不可用**：这导致无法验证 Docker 仓库的签名。
+2. **`archive.ubuntu.com` 的 `focal-updates` 仓库返回了一个 502 Bad Gateway 错误**：这通常与网络配置或代理设置有关。
+
+### 1. 解决 Docker 仓库的 GPG 密钥问题
+
+要解决 Docker 仓库的 GPG 密钥问题，你需要手动添加 Docker 的 GPG 公钥。请按照以下步骤操作：
+
+```bash
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7EA0A9C3F273FCD8
+```
+
+或者，你也可以通过以下命令来获取并添加 GPG 公钥：
+
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+添加 GPG 密钥后，再次运行 `sudo apt update` 来更新包列表。
+
+### 2. 解决 `archive.ubuntu.com` 的 `502 Bad Gateway` 错误
+
+502 错误通常与代理设置有关。在你的输出中，错误信息显示从 `http://archive.ubuntu.com` 获取数据时返回了 `502 Bad Gateway`，并且 IP 地址是 `127.0.0.1:7890`。这表明 `apt` 在尝试通过本地代理连接到外部服务器，但代理没有正确工作。
+
+#### 检查和更新代理设置
+
+请检查你的代理设置是否正确。你可以检查环境变量和 `apt` 的代理配置。
+
+1. **检查环境变量**：
+
+   在终端中，检查 HTTP 和 HTTPS 代理设置：
+
+   ```bash
+   echo $http_proxy
+   echo $https_proxy
+   ```
+
+   如果显示的是 `http://127.0.0.1:7890`，说明 `apt` 正在使用本地代理。确保你的代理服务在本地正常运行。
+
+2. **更新代理设置**：
+
+   如果你不打算使用代理，可以清除代理设置：
+
+   ```bash
+   unset http_proxy
+   unset https_proxy
+   sudo sed -i '/Acquire::http::Proxy/d' /etc/apt/apt.conf.d/proxy.conf
+   sudo sed -i '/Acquire::https::Proxy/d' /etc/apt/apt.conf.d/proxy.conf
+   ```
+
+   如果需要使用代理，请确保代理服务器地址正确且可访问。
+
+#### 重新启动网络服务
+
+在更改代理设置后，重新启动网络服务以确保配置生效：
+
+```bash
+sudo systemctl restart networking
+```
+
+### 总结
+
+1. 添加 Docker 仓库的 GPG 公钥以解决 GPG 错误。
+2. 检查并更新代理设置以解决 `502 Bad Gateway` 错误。
+3. 重新启动网络服务以确保更改生效。
+
+完成这些步骤后，请再次运行 `sudo apt update`，这应该会解决你的问题。
 ```
 $ sudo apt update
 Hit:1 http://mirrors.bwbot.org stable InRelease
