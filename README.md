@@ -1,5 +1,9 @@
 # 0902
 ```
+docker pull reme3180/golang-packr2:latest
+docker pull python:3-alpine
+docker pull ebpf_exporter:latest
+
 sudo apt install bsdutils
 OCCLUM_LOG_LEVEL=trace
 ```
