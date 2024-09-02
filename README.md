@@ -1,4 +1,38 @@
 # 0902
+```
+$ ./start.sh 
+SGX driver installed!
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  6.848MB
+Step 1/19 : FROM reme3180/golang-packr2:latest as builder
+latest: Pulling from reme3180/golang-packr2
+22dbe790f715: Retrying in 1 second 
+0250231711a0: Retrying in 1 second 
+6fba9447437b: Retrying in 1 second 
+c2b4d327b352: Waiting 
+619f4932b7ea: Waiting 
+16e105463ffe: Waiting 
+ed842bbe1793: Waiting 
+d23e7986e00e: Waiting 
+error pulling image configuration: download failed after attempts=6: dial tcp 103.230.123.190:443: i/o timeout
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  9.216kB
+Step 1/5 : FROM python:3-alpine
+3-alpine: Pulling from library/python
+c6a83fedfae6: Retrying in 1 second 
+6f14051a7863: Retrying in 1 second 
+e1e82c77ac9c: Retrying in 1 second 
+334024c37334: Waiting 
+2240f6c2d99c: Waiting 
+^C
+
+```
 从你的错误信息来看，目前有两个主要问题：
 
 1. **Docker 仓库的 GPG 密钥不可用**：这导致无法验证 Docker 仓库的签名。
