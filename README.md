@@ -1,6 +1,7 @@
 # 0902
 ```
 sudo apt install bsdutils
+OCCLUM_LOG_LEVEL=trace
 ```
 ```
 $ ./start.sh 
