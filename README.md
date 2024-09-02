@@ -1,4 +1,11 @@
 # 0902
+```
+63 packages can be upgraded. Run 'apt list --upgradable' to see them.
+W: Failed to fetch https://download.docker.com/linux/ubuntu/dists/focal/InRelease  Cannot initiate the connection to download.docker.com:443 (2a03:2880:f111:83:face:b00c:0:25de). - connect (101: Network is unreachable) Could not connect to download.docker.com:443 (31.13.82.33), connection timed out
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+
+```
+
 https://cdn.v2free.top/user
 
 ```
