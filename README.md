@@ -1,5 +1,8 @@
 # 0902
 ```
+sudo apt install bsdutils
+```
+```
 $ ./start.sh 
 SGX driver installed!
 DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
