@@ -1,4 +1,5 @@
 # 0902
+```
 Err:12 https://download.docker.com/linux/ubuntu focal InRelease                                                   
   Cannot initiate the connection to download.docker.com:443 (2001::6ca0:a63d). - connect (101: Network is unreachable) Could not connect to download.docker.com:443 (103.230.123.190), connection timed out
 Fetched 6,119 kB in 30s (202 kB/s)                      
@@ -19,3 +20,4 @@ W: Target DEP-11-icons (stable/dep11/icons-64x64.tar) is configured multiple tim
 W: Target DEP-11-icons-hidpi (stable/dep11/icons-64x64@2.tar) is configured multiple times in /etc/apt/sources.list:63 and /etc/apt/sources.list.d/docker.list:1
 W: Target CNF (stable/cnf/Commands-amd64) is configured multiple times in /etc/apt/sources.list:63 and /etc/apt/sources.list.d/docker.list:1
 W: Target CNF (stable/cnf/Commands-all) is configured multiple times in /etc/apt/sources.list:63 and /etc/apt/sources.list.d/docker.list:1
+```
