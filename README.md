@@ -1,3 +1,27 @@
+#0906
+```
+[2024-09-02T10:32:42.673Z][DEBUG][T0][#5317][RtSigsuspend] clean shm: ShmSegment { shmid: 2, key: 0, uid: 0, gid: 0, cuid: 0, cgid: 0, mode: S_IRUSR | S_IWUSR, status: (empty), shm_atime: 1725273162, shm_dtime: 1725273162, shm_ctime: 1725272985, shm_cpid: 2, shm_lpid: 660, shm_nattach: 64, chunk: range = VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, Single VMA chunk: SgxMutex { data: VMArea { range: VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, perms: READ | WRITE | DEFAULT, file_backed: None, access: Private(2) }, poisoned: false, .. }, process_set: {} }
+[2024-09-02T10:32:42.673Z][DEBUG][T0][#5317][RtSigsuspend] drop shm: ShmSegment { shmid: 2, key: 0, uid: 0, gid: 0, cuid: 0, cgid: 0, mode: S_IRUSR | S_IWUSR, status: (empty), shm_atime: 1725273162, shm_dtime: 1725273162, shm_ctime: 1725272985, shm_cpid: 2, shm_lpid: 660, shm_nattach: 64, chunk: range = VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, Single VMA chunk: SgxMutex { data: VMArea { range: VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, perms: READ | WRITE | DEFAULT, file_backed: None, access: Private(2) }, poisoned: false, .. }, process_set: {} }
+thread '<unnamed>' panicked at 'assertion failed: self.shm_nattach == 0', src/ipc/shm.rs:211:9
+stack backtrace:
+   0: rust_begin_unwind
+   1: core::panicking::panic_fmt
+             at library/core/src/panicking.rs:142
+   2: core::panicking::panic
+             at library/core/src/panicking.rs:48
+   3: <occlum_libos_core_rs::ipc::shm::ShmSegment as core::ops::drop::Drop>::drop
+   4: occlum_libos_core_rs::ipc::shm::ShmManager::clean_when_libos_exit
+   5: occlum_libos_core_rs::vm::user_space_vm::free_user_space
+   6: uninit_global_object
+   7: do_uninit_enclave
+   8: enter_enclave
+   9: <unknown>
+  10: <unknown>
+note: Some details are omitted, call backtrace::enable_backtrace() with 'PrintFormat::Full' for a verbose backtrace.
+fatal runtime error: failed to initiate panic, error 5
+/opt/occlum/build/bin/occlum: line 455: 268826 Illegal instruction     (core dumped) RUST_BACKTRACE=1 "$instance_dir/build/bin/occlum-run" "$@"
+
+```
 # 0902
 ```
 RUST_BACKTRACE=full
