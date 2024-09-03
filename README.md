@@ -1,5 +1,8 @@
 # 0902
 ```
+RUST_BACKTRACE=full
+```
+```
 thread '<unnamed>' panicked at 'assertion failed: self.shm_nattach == 0', src/ipc/shm.rs:211:9
 stack backtrace:
    0: rust_begin_unwind
