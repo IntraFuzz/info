@@ -1,4 +1,21 @@
-#0906
+```
+   2: core::panicking::panic
+             at library/core/src/panicking.rs:48
+   3: occlum_libos_core_rs::fs::procfs::stat::fill_in_stat
+   4: <occlum_libos_core_rs::fs::procfs::stat::StatINode as occlum_libos_core_rs::fs::procfs::proc_inode::ProcINode>::generate_data_in_bytes
+   5: <occlum_libos_core_rs::fs::procfs::proc_inode::file::File<T> as rcore_fs::vfs::INode>::read_at
+   6: <occlum_libos_core_rs::fs::inode_file::INodeFile as occlum_libos_core_rs::fs::file::File>::read
+   7: occlum_libos_core_rs::fs::file_ops::read::do_read
+   8: occlum_libos_core_rs::fs::syscalls::do_read
+   9: occlum_libos_core_rs::syscall::do_syscall
+  10: occlum_syscall
+  11: <unknown>
+note: Some details are omitted, call backtrace::enable_backtrace() with 'PrintFormat::Full' for a verbose backtrace.
+fatal runtime error: failed to initiate panic, error 5
+/home/yyw/EnclaveTrace/occlum_1122/build/bin/occlum: line 455: 362580 Illegal instruction     (core dumped) RUST_BACKTRACE=1 "$instance_dir/build/
+bin/occlum-run" "$@"
+```
+# 0903
 ```
 [2024-09-02T10:32:42.673Z][DEBUG][T0][#5317][RtSigsuspend] clean shm: ShmSegment { shmid: 2, key: 0, uid: 0, gid: 0, cuid: 0, cgid: 0, mode: S_IRUSR | S_IWUSR, status: (empty), shm_atime: 1725273162, shm_dtime: 1725273162, shm_ctime: 1725272985, shm_cpid: 2, shm_lpid: 660, shm_nattach: 64, chunk: range = VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, Single VMA chunk: SgxMutex { data: VMArea { range: VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, perms: READ | WRITE | DEFAULT, file_backed: None, access: Private(2) }, poisoned: false, .. }, process_set: {} }
 [2024-09-02T10:32:42.673Z][DEBUG][T0][#5317][RtSigsuspend] drop shm: ShmSegment { shmid: 2, key: 0, uid: 0, gid: 0, cuid: 0, cgid: 0, mode: S_IRUSR | S_IWUSR, status: (empty), shm_atime: 1725273162, shm_dtime: 1725273162, shm_ctime: 1725272985, shm_cpid: 2, shm_lpid: 660, shm_nattach: 64, chunk: range = VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, Single VMA chunk: SgxMutex { data: VMArea { range: VMRange { start: 0x7f4cda670000, end: 0x7f4cda671000, size: 0x1000 }, perms: READ | WRITE | DEFAULT, file_backed: None, access: Private(2) }, poisoned: false, .. }, process_set: {} }
