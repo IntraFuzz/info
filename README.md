@@ -1,4 +1,6 @@
 ```
+[W][2] getCpuUse():127 fscanf('/proc/stat') != 4
+
    2: core::panicking::panic
              at library/core/src/panicking.rs:48
    3: occlum_libos_core_rs::fs::procfs::stat::fill_in_stat
