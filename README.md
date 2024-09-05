@@ -1,3 +1,25 @@
+# 0905
+```
+thread '<unnamed>' panicked at 'explicit panic', src/fs/procfs/stat.rs:35:9
+stack backtrace:
+   0: rust_begin_unwind
+   1: core::panicking::panic_fmt
+             at library/core/src/panicking.rs:142
+   2: core::panicking::panic
+             at library/core/src/panicking.rs:48
+   3: occlum_libos_core_rs::fs::procfs::stat::fill_in_stat
+   4: <occlum_libos_core_rs::fs::procfs::stat::StatINode as occlum_libos_core_rs::fs::procfs::proc_inode::ProcINode>::generate_data_in_bytes
+   5: <occlum_libos_core_rs::fs::procfs::proc_inode::file::File<T> as rcore_fs::vfs::INode>::read_at
+   6: <occlum_libos_core_rs::fs::inode_file::INodeFile as occlum_libos_core_rs::fs::file::File>::read
+   7: occlum_libos_core_rs::fs::file_ops::read::do_read
+   8: occlum_libos_core_rs::fs::syscalls::do_read
+   9: occlum_libos_core_rs::syscall::do_syscall
+  10: occlum_syscall
+  11: <unknown>
+note: Some details are omitted, call backtrace::enable_backtrace() with 'PrintFormat::Full' for a verbose backtrace.
+fatal runtime error: failed to initiate panic, error 5
+/opt/occlum/build/bin/occlum: line 455: 501105 Illegal instruction     (core dumped) RUST_BACKTRACE=1 "$instance_dir/build/bin/occlum-run" "$@
+```
 ```
 [W][2] getCpuUse():127 fscanf('/proc/stat') != 4
 
