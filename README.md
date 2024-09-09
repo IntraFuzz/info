@@ -1,3 +1,7 @@
+# 0909
+```
+-d -i ___FILE___ -o f
+```
 # 0905
 ```
 thread '<unnamed>' panicked at 'explicit panic', src/fs/procfs/stat.rs:35:9
