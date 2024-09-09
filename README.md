@@ -1,5 +1,6 @@
 # 0909
 ```
+copy_bom -f ../honggfuzz.yaml --root image --include-dir /opt/occlum/etc/template
 -d -i ___FILE___ -o f
 -e -i ___FILE___ -o f
 ```
