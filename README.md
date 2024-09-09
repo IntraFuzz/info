@@ -1,5 +1,6 @@
 # 0909
 ```
+occlum run /bin/honggfuzz -P -i in -o out1 -n 1 -t 5 -- ./Crypt -d -i ___FILE___ -o f
 copy_bom -f ../honggfuzz.yaml --root image --include-dir /opt/occlum/etc/template
 -d -i ___FILE___ -o f
 -e -i ___FILE___ -o f
