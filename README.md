@@ -1,3 +1,54 @@
+# 0910
+```
+SHM_ID_0 value: 0 in arch_checkWait
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+run handler 
+thread '<unnamed>' panicked at 'the nested signal is too deep to handle', src/signal/do_sigreturn.rs:143:9
+stack backtrace:
+   0: rust_begin_unwind
+   1: core::panicking::panic_fmt
+             at library/core/src/panicking.rs:142
+   2: occlum_libos_core_rs::signal::do_sigreturn::handle_signal
+   3: occlum_libos_core_rs::signal::do_sigreturn::force_signal
+   4: occlum_libos_core_rs::exception::do_handle_exception
+   5: occlum_libos_core_rs::syscall::do_syscall
+   6: occlum_syscall
+   7: <unknown>
+note: Some details are omitted, call backtrace::enable_backtrace() with 'PrintFormat::Full' for a verbose backtrace.
+fatal runtime error: failed to initiate panic, error 5
+/opt/occlum/build/bin/occlum: line 455: 33207 Illegal instruction     (core dumped) RUST_BACKTRACE=1 "$instance_dir/build/bin/occlum-run" "$@"
+]0;yyw@yyw-virtual-machine: ~/EnclaveTrace/honggfuzz/ins_crypt-1[01;32myyw@yyw-virtual-machine[00m:[01;34m~/EnclaveTrace/honggfuzz/ins_crypt-1[00m$ exit
+```
 # 0909
 ```
 OCCLUM_LOG_LEVEL=trace
