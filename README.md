@@ -1,4 +1,14 @@
-# 0911
+# 90911
+```
+SHM_ID_0 value: 0 in arch_checkWait
+thread '<unnamed>' panicked at 'failed to sync when dropping the SEFS Inode: DeviceError(5)', /home/yyw/EnclaveTrace/occlum_1122/deps/sefs/rcore-fs-s
+efs/src/lib.rs:805:14
+stack backtrace:
+note: Some details are omitted, call backtrace::enable_backtrace() with 'PrintFormat::Full' for a verbose backtrace.
+fatal runtime error: failed to initiate panic, error 5
+/opt/occlum/build/bin/occlum: line 455: 77767 Illegal instruction     (core dumped) RUST_BACKTRACE=1 "$instance_dir/build/bin/occlum-run" "$@"
+
+```
 ```
 bool sig_handled_flag = false; // New flag to track whether the signal has already been handled
 // 异常信号处理函数
