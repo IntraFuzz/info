@@ -1,3 +1,109 @@
+# 0911
+```
+bool sig_handled_flag = false; // New flag to track whether the signal has already been handled
+// 异常信号处理函数
+void sig_handler(int signo, siginfo_t *info, void *context) {
+    // If the signal has already been handled, return immediately
+    if (sig_handled_flag) {
+        printf("Signal already handled, ignoring subsequent signal.\n");
+        crash_flag = true;
+        exit(1);
+    }
+    sig_handled_flag = true; // Set the flag to indicate the signal is being handled
+    crash_flag = true;
+    handler(info, context);
+    char *shm_data;
+
+    pid_t parent_tid = atoi(getenv("PARENT_TID"));
+    if (parent_tid == 0) {
+        fprintf(stderr, "Error: PARENT_TID environment variable not found.\n");
+        return;
+    }
+    int threads_max = get_thread_max();
+
+    char shm_id_var_name[32];
+    snprintf(shm_id_var_name, sizeof(shm_id_var_name), "SHM_ID_%d", parent_tid % threads_max);
+
+    char* shm_id_str = getenv(shm_id_var_name);
+    if (shm_id_str == NULL) {
+        fprintf(stderr, "Error: %s environment variable not found.\n", shm_id_var_name);
+        return;
+    }
+
+    int shm_id = atoi(shm_id_str);
+    printf("%s value: %d in sig_handler\n", shm_id_var_name, shm_id);
+
+    /*char* shm_id_str = getenv("SHM_ID_STR");
+    if (shm_id_str == NULL) {
+        fprintf(stderr, "Error: SHM_ID_STR environment variable not found.\n");
+        exit(1);
+    }
+
+    int shm_id = atoi(shm_id_str);*/
+    if ((shm_data = shmat(shm_id, NULL, 0)) == (void *)-1) {
+        perror("shmat");
+        exit(1);
+    }
+
+    uint32_t *futex = (uint32_t *)shm_data;
+    char *exec = (char *)((char *)shm_data + EXEC_OFFSET);
+
+    // 锁定共享内存
+    
+    if (signo == SIGSEGV) {
+        lock(futex);
+        strncpy(exec, "segv", 64);
+        unlock(futex);
+        printf("Child set exec status to 'segv'\n");
+    } else if (signo == SIGILL) {
+        lock(futex);
+        strncpy(exec, "ill", 64);
+        unlock(futex);
+        printf("Child set exec status to 'ill'\n");
+    } else if (signo == SIGFPE) {
+        lock(futex);
+        strncpy(exec, "fpe", 64);
+        unlock(futex);
+        printf("Child set exec status to 'fpe'\n");
+    } else if (signo == SIGABRT) {
+        lock(futex);
+        strncpy(exec, "abrt", 64);
+        unlock(futex);
+        printf("Child set exec status to 'abrt'\n");
+    }
+
+    shmdt(shm_data);
+
+    // 等待父进程设置 exec[1] 为 "cont"
+    while (1) {
+        if ((shm_data = shmat(shm_id, NULL, 0)) == (void *)-1) {
+            perror("shmat");
+            exit(1);
+        }
+
+        uint32_t *futex1 = (uint32_t *)shm_data;
+        char *exec = (char *)((char *)shm_data + EXEC_OFFSET);
+
+        // 锁定共享内存
+        lock(futex1);
+        if (strcmp(exec + 64, "cont") == 0) { // exec[1]
+            // 设置 exec[2] 为 "done"
+            printf("Child: 'cont' detected, continuing execution.\n");
+            //strncpy(exec + 128, "done", 64);
+            //printf("Child set exec status to 'done'\n");
+            unlock(futex1); // 解锁共享内存
+            shmdt(shm_data);
+            break;
+        }
+        unlock(futex1); // 解锁共享内存
+
+        shmdt(shm_data);
+        usleep(100);
+    }
+    sig_handled_flag = false; // Reset the flag after signal handling is done
+    exit(1);
+}
+```
 # 0910
 ```
 SHM_ID_0 value: 0 in arch_checkWait
