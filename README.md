@@ -1,4 +1,4 @@
-# 90911
+# 0911
 ```
 SHM_ID_0 value: 0 in arch_checkWait
 thread '<unnamed>' panicked at 'failed to sync when dropping the SEFS Inode: DeviceError(5)', /home/yyw/EnclaveTrace/occlum_1122/deps/sefs/rcore-fs-s
