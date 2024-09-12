@@ -1,5 +1,38 @@
 # 0912
 ```
+includes:
+  - base.yaml
+# sysbench
+targets:
+  # copy sysbench
+  - target: /bin
+    copy:
+      - files:
+        - ../honggfuzz
+        - ../ls
+        - ../cp
+  - target: /
+    copy:
+      - from: ../test
+        dirs:
+          - in
+          - out11
+          - work1
+        files: 
+          - kmeans
+          - 1000000
+#          - arith.wasm
+#      - from: ../
+#        files: 
+#          - exec.txt
+#          - info.txt
+  - target: /opt/occlum/glibc/etc
+    copy:
+      - files:
+        - name: /usr/share/zoneinfo/Asia/Shanghai
+          rename: localtime
+```
+```
 [2024-09-12T14:38:12Z ERROR copy_bom::bom] ../honggfuzz.yaml is not a valid bom file. targets[1].copy[0].files: data did not m
 atch any variant of untagged enum NormalFile at line 19 column 11.
 ```
