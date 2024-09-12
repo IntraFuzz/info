@@ -1,3 +1,8 @@
+# 0912
+```
+[2024-09-12T14:38:12Z ERROR copy_bom::bom] ../honggfuzz.yaml is not a valid bom file. targets[1].copy[0].files: data did not m
+atch any variant of untagged enum NormalFile at line 19 column 11.
+```
 # 0911
 ```
 SHM_ID_0 value: 0 in arch_checkWait
