@@ -1,3 +1,7 @@
+# 0913
+```
+occlum run /bin/honggfuzz -P -i in -o out -n 1 -t 5 -- ./kmeans 1000000 ___FILE___
+```
 # 0912
 ```
 includes:
