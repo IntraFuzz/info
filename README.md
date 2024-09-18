@@ -1,3 +1,7 @@
+# 0918
+```
+occlum run /bin/cp -r  ./*  /host/kmeans1
+```
 # 0913
 ```
 occlum run /bin/honggfuzz -P -i in -o out -n 1 -t 5 -- ./kmeans 1000000 ___FILE___
