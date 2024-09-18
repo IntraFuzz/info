@@ -1,6 +1,37 @@
 # 0918
 ```
-occlum run /bin/cp -r  ./*  /host/kmeans1
+$ occlum run /bin/honggfuzz -P -i in -o out -n 1 -t 5 -- ./kmeans 1000000 ___FILE___
+Start time:'2024-09-18.16.46.40' bin:'./kmeans', input:'in', output:'out', persistent:true, stdin:false, mutation_rate:5, timeout:5, max_runs:0, threads:1, minimize:false, git_commit:b554b47e4291231a19680c7bc8c0697658eac025
+run shm_open1 in files_createSharedMem
+thread '<unnamed>' panicked at 'memory allocation of 151044104 bytes failed
+', src/entry.rs:128:5
+stack backtrace:
+   0: rust_begin_unwind
+   1: core::panicking::panic_fmt
+             at library/core/src/panicking.rs:142
+   2: occlum_libos_core_rs::entry::oom_handle
+   3: rust_oom
+   4: __rg_oom
+             at library/alloc/src/alloc.rs:411
+   5: alloc::alloc::handle_alloc_error::rt_error
+             at library/alloc/src/alloc.rs:377
+   6: core::ops::function::FnOnce::call_once
+             at /rustc/68369a041cea809a87e5bd80701da90e0e0a4799/library/core/src/ops/function.rs:227
+   7: core::intrinsics::const_eval_select
+             at /rustc/68369a041cea809a87e5bd80701da90e0e0a4799/library/core/src/intrinsics.rs:2366
+   8: alloc::alloc::handle_alloc_error
+             at library/alloc/src/alloc.rs:381
+   9: alloc::raw_vec::RawVec<T,A>::reserve::do_reserve_and_handle
+  10: <rcore_fs_ramfs::LockedINode as rcore_fs::vfs::INode>::resize
+  11: <occlum_libos_core_rs::fs::inode_file::INodeFile as occlum_libos_core_rs::fs::file::File>::set_len
+  12: occlum_libos_core_rs::fs::file_ops::truncate::do_ftruncate
+  13: occlum_libos_core_rs::syscall::dispatch_syscall
+  14: occlum_libos_core_rs::syscall::do_syscall
+  15: occlum_syscall
+  16: <unknown>
+note: Some details are omitted, call backtrace::enable_backtrace() with 'PrintFormat::Full' for a verbose backtrace.
+fatal runtime error: failed to initiate panic, error 5
+/opt/occlum/build/bin/occlum: line 455:  7300 Illegal instruction     (core dumped) RUST_BACKTRACE=1 "$instance_dir/build/bin/occlum-run" "$@"
 ```
 # 0913
 ```
