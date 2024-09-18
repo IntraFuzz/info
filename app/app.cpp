@@ -4,6 +4,8 @@
 #include <string.h>
 #include <cstdint>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/file.h>
 #include "getopt.h"
 #include "stdio.h"
 #include "Benchmark/cpuidh.h" //benchmark
@@ -17,6 +19,8 @@
 #define MAX_FILE_NAME_SIZE  512
 #define EINVAL 22
 #define EOVERFLOW 75
+
+#define TEMP_FILE_NAME "tmp_input"
 
 #define TMP_FILE_PREFIX "tempfile_"
 //void exiter() __attribute__((destructor));
@@ -513,23 +517,20 @@ int deleteFile(const char *filename) {
     deleteFile(tempFileName);
     return 0;
 }*/
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     int option = 0;
     int mode = 0;
     char inFileName[MAX_FILE_NAME_SIZE];
     char outFileName[MAX_FILE_NAME_SIZE];
-    char tempFileName[L_tmpnam];  // 临时文件名
-    tmpnam(tempFileName);  // 生成一个临时文件名
 
-    // Specifying the expected options 
+    // 选项解析
     while ((option = getopt(argc, argv,"edi:o:")) != -1) {
         switch (option) {
             case 'e' : 
-                mode = 1; //Encryption enabled 
+                mode = 1; // 加密模式
                 break;
             case 'd' : 
-                mode = 2; //Decryption enabled 
+                mode = 2; // 解密模式
                 break;
             case 'i' : 
                 if(optarg == NULL) {
@@ -549,28 +550,43 @@ int main(int argc, char *argv[])
         }
     }
     
-    //Check if it is invalid mode
-    if (mode == 0)
-    {
+    if (mode == 0) {
         printAppUsage();
         exit(EXIT_FAILURE);
     }
 
-    // 将 inFileName 的内容写入临时文件 tempFileName
+    // 打开输入文件
     FILE *inputFile = fopen(inFileName, "rb");
     if (!inputFile) {
         fprintf(stderr, "Failed to open input file: %s\n", inFileName);
         exit(EXIT_FAILURE);
     }
 
-    FILE *tempFile = fopen(tempFileName, "wb");
-    if (!tempFile) {
-        fprintf(stderr, "Failed to create temporary file: %s\n", tempFileName);
+    // 打开/创建临时文件并加锁
+    int tempFileFd = open(TEMP_FILE_NAME, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    if (tempFileFd == -1) {
+        perror("Failed to open temp file");
         fclose(inputFile);
         exit(EXIT_FAILURE);
     }
 
-    // 将输入文件的内容拷贝到临时文件
+    // 加锁（排他锁）
+    if (flock(tempFileFd, LOCK_EX) == -1) {
+        perror("Failed to lock temp file");
+        close(tempFileFd);
+        fclose(inputFile);
+        exit(EXIT_FAILURE);
+    }
+
+    // 将 inFileName 的内容直接写入固定名称的文件 tmp_input
+    FILE *tempFile = fdopen(tempFileFd, "wb");
+    if (!tempFile) {
+        perror("Failed to create temporary file stream");
+        close(tempFileFd);
+        fclose(inputFile);
+        exit(EXIT_FAILURE);
+    }
+
     char buffer[1024];
     size_t bytes;
     while ((bytes = fread(buffer, 1, sizeof(buffer), inputFile)) > 0) {
@@ -578,23 +594,28 @@ int main(int argc, char *argv[])
     }
 
     fclose(inputFile);
-    fclose(tempFile);
+    fclose(tempFile);  // 关闭文件流，但文件描述符仍然保持打开和锁定状态
 
     char newFileName[MAX_FILE_NAME_SIZE] = "after";
     
-    // 调用 encryptFile 和 decryptFile，保持原有逻辑
+    // 调用加密/解密函数，保持原有逻辑
     if (mode == 1) {
-        encryptFile(tempFileName, outFileName);  // 加密临时文件并输出到 outFileName
-        decryptFile(outFileName, newFileName);  // 解密 outFileName 并输出到 newFileName
+        encryptFile(TEMP_FILE_NAME, outFileName);
+        decryptFile(outFileName, newFileName);
     } else {
         printf("Decrypt a file\n");
-        int res = decryptFile(tempFileName, outFileName);  // 解密临时文件并输出到 outFileName
-        printf("res: %d in decrypt\n", res);
-        encryptFile(outFileName, newFileName);  // 再次加密 outFileName 并输出到 newFileName
+        decryptFile(TEMP_FILE_NAME, outFileName);
+        encryptFile(outFileName, newFileName);
     }
 
+    // 解锁并关闭临时文件描述符
+    if (flock(tempFileFd, LOCK_UN) == -1) {
+        perror("Failed to unlock temp file");
+    }
+    close(tempFileFd);
+
     // 删除临时文件
-    if (remove(tempFileName) != 0) {
+    if (remove(TEMP_FILE_NAME) != 0) {
         perror("Failed to delete temporary file");
     }
 
