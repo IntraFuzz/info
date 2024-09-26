@@ -1,6 +1,6 @@
 # 0926
 ```
- ./../honggfuzz -P -i in -o out1 -n 1 -- ./kmeans 1000000 ___FILE___
+ ./../honggfuzz -P -i in -o out1 -run_time 60  -- ./kmeans 1000000 ___FILE___
 ```
 # 0918
 ```
