@@ -1,6 +1,6 @@
 # 1115
 ```
-/home/lush/test/honggfuzz_spawn_flock/hfuzz_cc/hfuzz-clang nullptr.c -fpic -pie -rdynamic -ldl -lunwind -lunwind-x86_64 -lunwind-generic -lcapstone -o null
+/home/yyw/EnclaveTrace/Fuzzer/hfuzz_cc/hfuzz-clang nullptr.c -fpic -pie -rdynamic -ldl -lunwind -lunwind-x86_64 -lunwind-generic -lcapstone -o nullptr
 /home/lush/test/honggfuzz_spawn_flock/honggfuzz -P -i in -o out -n 1 -- ./null ___FILE___
 ```
 # 0926
