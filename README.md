@@ -1,3 +1,8 @@
+# 1115
+```
+/home/lush/test/honggfuzz_spawn_flock/hfuzz_cc/hfuzz-clang nullptr.c -fpic -pie -rdynamic -ldl -lunwind -lunwind-x86_64 -lunwind-generic -lcapstone -o null
+/home/lush/test/honggfuzz_spawn_flock/honggfuzz -P -i in -o out -n 1 -- ./null ___FILE___
+```
 # 0926
 ```
  ./../honggfuzz -P -i in -o out1 -run_time 60  -- ./kmeans 1000000 ___FILE___
